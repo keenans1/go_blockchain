@@ -2,7 +2,9 @@ package main
 
 import (
 	"crypto/sha256"
+	"encoding/json"
 	"fmt"
+	"os"
 	"strconv"
 	"time"
 )
@@ -15,7 +17,7 @@ type Block struct {
 	Hash         string // Hash of the current block
 }
 
-var Blockchain []Block
+// var Blockchain []Block
 
 func calculateHash(block Block) string {
 	record := strconv.Itoa(block.Index) + block.Timestamp + block.Data + block.PreviousHash
@@ -60,22 +62,68 @@ func isValidChain(blockchain []Block) bool {
 	return true
 }
 
-func main() {
+func SaveBlockchain(chain []Block) error {
+    data, err := json.Marshal(chain)
+    if err != nil {
+        return err
+    }
+    return os.WriteFile("blockchain.json", data, 0644)
+}
+
+func LoadBlockchain() ([]Block, error) {
+    data, err := os.ReadFile("blockchain.json")
+    if err != nil {
+        return nil, err
+    }
+    var chain []Block
+    json.Unmarshal(data, &chain)
+    return chain, nil
+}
+
+// func createAndLoadBlockchain(blockchain []Block) {
+// 	// Initialize Blockchain
+// 	Blockchain = append(Blockchain, createGenesisBlock())
+// 	fmt.Println("Genesis Block Created:", Blockchain[0])
+
+// 	// Add New Blocks
+// 	Blockchain = append(Blockchain, generateNewBlock(Blockchain[len(Blockchain)-1], "First Block"))
+// 	Blockchain = append(Blockchain, generateNewBlock(Blockchain[len(Blockchain)-1], "Second Block"))
+// }
+
+func createAndLoadBlockchain(blockchain []Block) []Block{
 	// Initialize Blockchain
-	Blockchain = append(Blockchain, createGenesisBlock())
-	fmt.Println("Genesis Block Created:", Blockchain[0])
+	blockchain = append(blockchain, createGenesisBlock())
+	fmt.Println("Genesis Block Created:", blockchain[0])
 
 	// Add New Blocks
-	Blockchain = append(Blockchain, generateNewBlock(Blockchain[len(Blockchain)-1], "First Block"))
-	Blockchain = append(Blockchain, generateNewBlock(Blockchain[len(Blockchain)-1], "Second Block"))
+	blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "First Block"))
+	blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "Second Block"))
 
-	// Print Blockchain
-	for _, block := range Blockchain {
-		fmt.Printf("Index: %d, Data: %s, Hash: %s\n", block.Index, block.Data, block.Hash)
+	// load into file
+	SaveBlockchain(blockchain)
+
+	return blockchain
+}
+
+func main() {
+
+	blockChain, err := LoadBlockchain()
+
+	if err != nil {
+		// create and load
+		blockChain = createAndLoadBlockchain(blockChain)
+	} else {
+		// load it
+		blockChain, _ = LoadBlockchain()
 	}
 
+	// Print Blockchain
+	// for _, block := range Blockchain {
+	// 	fmt.Printf("Index: %d, Data: %s, Hash: %s\n", block.Index, block.Data, block.Hash)
+	// }
+
 	// Validate Chain
-	if isValidChain(Blockchain) {
+	if isValidChain(blockChain) {
 		fmt.Println("Blockchain is valid!")
 	} else {
 		fmt.Println("Blockchain is invalid!")
