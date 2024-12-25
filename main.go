@@ -10,14 +10,12 @@ import (
 )
 
 type Block struct {
-	Index        int    // Position in the chain
-	Timestamp    string // Creation time
-	Data         string // Block data
-	PreviousHash string // Hash of the previous block
-	Hash         string // Hash of the current block
+	Index        int    
+	Timestamp    string 
+	Data         string 
+	PreviousHash string 
+	Hash         string 
 }
-
-// var Blockchain []Block
 
 func calculateHash(block Block) string {
 	record := strconv.Itoa(block.Index) + block.Timestamp + block.Data + block.PreviousHash
@@ -80,16 +78,6 @@ func LoadBlockchain() ([]Block, error) {
     return chain, nil
 }
 
-// func createAndLoadBlockchain(blockchain []Block) {
-// 	// Initialize Blockchain
-// 	Blockchain = append(Blockchain, createGenesisBlock())
-// 	fmt.Println("Genesis Block Created:", Blockchain[0])
-
-// 	// Add New Blocks
-// 	Blockchain = append(Blockchain, generateNewBlock(Blockchain[len(Blockchain)-1], "First Block"))
-// 	Blockchain = append(Blockchain, generateNewBlock(Blockchain[len(Blockchain)-1], "Second Block"))
-// }
-
 func createAndLoadBlockchain(blockchain []Block) []Block{
 	// Initialize Blockchain
 	blockchain = append(blockchain, createGenesisBlock())
@@ -99,9 +87,7 @@ func createAndLoadBlockchain(blockchain []Block) []Block{
 	blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "First Block"))
 	blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "Second Block"))
 
-	// load into file
 	SaveBlockchain(blockchain)
-
 	return blockchain
 }
 
@@ -110,19 +96,11 @@ func main() {
 	blockChain, err := LoadBlockchain()
 
 	if err != nil {
-		// create and load
 		blockChain = createAndLoadBlockchain(blockChain)
 	} else {
-		// load it
 		blockChain, _ = LoadBlockchain()
 	}
 
-	// Print Blockchain
-	// for _, block := range Blockchain {
-	// 	fmt.Printf("Index: %d, Data: %s, Hash: %s\n", block.Index, block.Data, block.Hash)
-	// }
-
-	// Validate Chain
 	if isValidChain(blockChain) {
 		fmt.Println("Blockchain is valid!")
 	} else {
