@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"crypto/sha256"
 	"encoding/json"
 	"fmt"
@@ -78,14 +79,14 @@ func LoadBlockchain() ([]Block, error) {
     return chain, nil
 }
 
-func createAndLoadBlockchain(blockchain []Block) []Block{
+func createAndSaveBlockchain(blockchain []Block) []Block{
 	// Initialize Blockchain
 	blockchain = append(blockchain, createGenesisBlock())
 	fmt.Println("Genesis Block Created:", blockchain[0])
 
 	// Add New Blocks
-	blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "First Block"))
-	blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "Second Block"))
+	// blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "First Block"))
+	// blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "Second Block"))
 
 	SaveBlockchain(blockchain)
 	return blockchain
@@ -96,10 +97,29 @@ func main() {
 	blockChain, err := LoadBlockchain()
 
 	if err != nil {
-		blockChain = createAndLoadBlockchain(blockChain)
+		blockChain = createAndSaveBlockchain(blockChain)
 	} else {
 		blockChain, _ = LoadBlockchain()
 	}
+
+    scanner := bufio.NewScanner(os.Stdin)
+
+    for {
+        fmt.Print("Enter data for the new block (or 'exit' to quit): ")
+        scanner.Scan()
+        input := scanner.Text()
+
+        if input == "exit" {
+            break
+        }
+
+		newBlock := generateNewBlock(blockChain[len(blockChain) - 1], input)
+		blockChain = append(blockChain, newBlock)
+		SaveBlockchain(blockChain)
+		fmt.Println("New block added:", blockChain[len(blockChain)-1])
+    }
+
+
 
 	if isValidChain(blockChain) {
 		fmt.Println("Blockchain is valid!")
