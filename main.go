@@ -82,18 +82,12 @@ func LoadBlockchain() ([]Block, error) {
 func createAndSaveBlockchain(blockchain []Block) []Block{
 	// Initialize Blockchain
 	blockchain = append(blockchain, createGenesisBlock())
-	fmt.Println("Genesis Block Created:", blockchain[0])
-
-	// Add New Blocks
-	// blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "First Block"))
-	// blockchain = append(blockchain, generateNewBlock(blockchain[len(blockchain)-1], "Second Block"))
-
+	// fmt.Println("Genesis Block Created:", blockchain[0])
 	SaveBlockchain(blockchain)
 	return blockchain
 }
 
 func main() {
-
 	blockChain, err := LoadBlockchain()
 
 	if err != nil {
@@ -118,8 +112,6 @@ func main() {
 		SaveBlockchain(blockChain)
 		fmt.Println("New block added:", blockChain[len(blockChain)-1])
     }
-
-
 
 	if isValidChain(blockChain) {
 		fmt.Println("Blockchain is valid!")
