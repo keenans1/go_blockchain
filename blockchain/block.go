@@ -1,4 +1,4 @@
-package main
+package blockchain
 
 import (
 	"crypto/sha256"
@@ -32,7 +32,7 @@ func createGenesisBlock() Block {
 	return genesisBlock
 }
 
-func generateNewBlock(previousBlock Block, data string) Block {
+func GenerateNewBlock(previousBlock Block, data string) Block {
 	newBlock := Block{
 		Index:        previousBlock.Index + 1,
 		Timestamp:    time.Now().String(),

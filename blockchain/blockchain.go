@@ -1,4 +1,4 @@
-package main
+package blockchain
 
 import (
 	"encoding/json"
@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func isValidChain(blockchain []Block) bool {
+func IsValidChain(blockchain []Block) bool {
 	for i := 1; i < len(blockchain); i++ {
 		currentBlock := blockchain[i]
 		previousBlock := blockchain[i-1]
@@ -21,8 +21,8 @@ func isValidChain(blockchain []Block) bool {
 	return true
 }
 
-func SaveBlockchain(chain []Block) error {
-    data, err := json.Marshal(chain)
+func SaveBlockchain(blockchain []Block) error {
+    data, err := json.Marshal(blockchain)
     if err != nil {
         return err
     }
@@ -34,12 +34,12 @@ func LoadBlockchain() ([]Block, error) {
     if err != nil {
         return nil, err
     }
-    var chain []Block
-    json.Unmarshal(data, &chain)
-    return chain, nil
+    var blockchain []Block
+    json.Unmarshal(data, &blockchain)
+    return blockchain, nil
 }
 
-func createAndSaveBlockchain(blockchain []Block) []Block{
+func CreateAndSaveBlockchain(blockchain []Block) []Block{
 	// Initialize Blockchain
 	blockchain = append(blockchain, createGenesisBlock())
 	// fmt.Println("Genesis Block Created:", blockchain[0])
@@ -54,4 +54,16 @@ func ResetBlockchain(blockchain []Block) []Block {
     }
     // Retain only the first element (genesis block)
     return blockchain[:1]
+}
+
+func ViewBlockchain(blockChain []Block) {
+	fmt.Println("Blockchain contents:")
+    for _, block := range blockChain {
+        fmt.Printf("Block %d:\n", block.Index)
+        fmt.Printf("  Timestamp: %s\n", block.Timestamp)
+        fmt.Printf("  Data: %s\n", block.Data)
+        fmt.Printf("  PrevHash: %s\n", block.PreviousHash)
+        fmt.Printf("  Hash: %s\n", block.Hash)
+        fmt.Println("-------------------------")
+    }
 }
