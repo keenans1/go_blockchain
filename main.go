@@ -12,11 +12,9 @@ func main() {
 	blockChain, err := blockchain.LoadBlockchain()
 
 	if err != nil {
-		blockChain = blockchain.CreateAndSaveBlockchain(blockChain)
-	} else {
-		blockChain, _ = blockchain.LoadBlockchain()
-	}
-
+		blockchain.CreateAndSaveBlockchain(&blockChain)
+	} 
+	
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
@@ -41,7 +39,7 @@ func main() {
 				fmt.Println("Blockchain integrity is compromised!")
 			}
 		case 4:
-			blockChain = blockchain.ResetBlockchain(blockChain)
+			blockchain.ResetBlockchain(&blockChain)
 			fmt.Println("Blockchain reset to genesis block.")
 		case 5:
 			fmt.Println("Exiting program.")

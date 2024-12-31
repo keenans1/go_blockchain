@@ -39,21 +39,17 @@ func LoadBlockchain() ([]Block, error) {
     return blockchain, nil
 }
 
-func CreateAndSaveBlockchain(blockchain []Block) []Block{
-	// Initialize Blockchain
-	blockchain = append(blockchain, createGenesisBlock())
-	// fmt.Println("Genesis Block Created:", blockchain[0])
-	SaveBlockchain(blockchain)
-	return blockchain
+func CreateAndSaveBlockchain(blockchain *[]Block) {
+    *blockchain = append(*blockchain, createGenesisBlock())
+    SaveBlockchain(*blockchain)
 }
 
-func ResetBlockchain(blockchain []Block) []Block {
-    if len(blockchain) == 0 {
+func ResetBlockchain(blockchain *[]Block) {
+    if len(*blockchain) == 0 {
         fmt.Println("Blockchain is empty; cannot reset.")
-        return nil
+        return
     }
-    // Retain only the first element (genesis block)
-    return blockchain[:1]
+    *blockchain = (*blockchain)[:1]
 }
 
 func ViewBlockchain(blockChain []Block) {
