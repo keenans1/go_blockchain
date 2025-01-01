@@ -51,11 +51,11 @@ Applying theoretical knowledge from CS50 to a practical, real-world application,
 ### Future Enhancements
 Potential improvements for this project include:
 
-Networking: Implementing peer-to-peer communication to simulate a decentralized network of nodes.
+* Networking: Implementing peer-to-peer communication to simulate a decentralized network of nodes.
 
-Consensus Algorithms: Introducing consensus mechanisms like Proof of Work (PoW) or Proof of Stake (PoS) to enhance the blockchain's robustness.
+* Consensus Algorithms: Introducing consensus mechanisms like Proof of Work (PoW) or Proof of Stake (PoS) to enhance the blockchain's robustness.
 
-Advanced Data Structures: Utilizing more complex data structures, such as Merkle trees, to improve data integrity and verification processes.
+* Advanced Data Structures: Utilizing more complex data structures, such as Merkle trees, to improve data integrity and verification processes.
 
 ### Conclusion
 Developing this Go-based blockchain project has been an enlightening experience, bridging theoretical concepts from CS50 with practical application. It has deepened my understanding of both blockchain technology and the Go programming language, highlighting the importance of efficient memory management and modular code design in building scalable and maintainable systems.
