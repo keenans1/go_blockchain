@@ -1,6 +1,6 @@
 # Go Blockchain Project
 ### Video Demo:  
-<URL HERE>
+https://youtu.be/GgDeM7mL-XQ
 
 ### Overview
 This project is a blockchain implementation developed in Go, inspired by concepts from Harvard's CS50 course. It serves as an educational tool to understand blockchain technology from a coding perspective, emphasizing efficient memory management through the use of pointers and Go modules for dependency management.
